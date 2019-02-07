@@ -10,8 +10,7 @@ namespace PriceTracker.Models
         {
         }
 
-        public PriceTrackerContext(DbContextOptions<PriceTrackerContext> options)
-            : base(options)
+        public PriceTrackerContext(DbContextOptions<PriceTrackerContext> options) : base(options)
         {
         }
 
@@ -22,7 +21,7 @@ namespace PriceTracker.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseMySQL("server=localhost; Port=3306; uid=root; database=PriceTracker;");
             }
         }
