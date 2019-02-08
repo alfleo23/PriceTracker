@@ -30,3 +30,5 @@
 /Users/alfonsoleone/RiderProjects/PriceTracker/PriceTracker/obj/Debug/netcoreapp2.1/PriceTracker.dll
 /Users/alfonsoleone/RiderProjects/PriceTracker/PriceTracker/obj/Debug/netcoreapp2.1/PriceTracker.pdb
 /Users/alfonsoleone/RiderProjects/PriceTracker/PriceTracker/obj/Debug/netcoreapp2.1/PriceTracker.csproj.CopyComplete
+/Users/alfonsoleone/RiderProjects/PriceTracker/PriceTracker/obj/Debug/netcoreapp2.1/Razor/Views/Home/Search.g.cshtml.cs
+/Users/alfonsoleone/RiderProjects/PriceTracker/PriceTracker/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_newLayout.g.cshtml.cs
