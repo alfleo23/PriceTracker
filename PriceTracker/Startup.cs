@@ -36,6 +36,7 @@ namespace PriceTracker
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
+            //TODO: move to config file
             var connection = "server=localhost; Port=3306; uid=root; database=PriceTracker;";
             services.AddDbContext<PriceTrackerContext>(options => options.UseMySQL(connection));
         }
