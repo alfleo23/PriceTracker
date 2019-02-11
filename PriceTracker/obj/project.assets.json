@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
+      "AngleSharp/0.10.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Text.Encoding.CodePages": "4.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/AngleSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/AngleSharp.dll": {}
+        }
+      },
       "Google.Protobuf/3.5.1": {
         "type": "package",
         "dependencies": {
@@ -4404,6 +4416,22 @@
     }
   },
   "libraries": {
+    "AngleSharp/0.10.1": {
+      "sha512": "lF8j0OjUldkbhdGUjRePGmHLcb0oJsAnYh3ZQ0YfKp1oS8C6wER/RwuUze/lf/C29ENlWWhzQFMbMTQnzcPBAg==",
+      "type": "package",
+      "path": "anglesharp/0.10.1",
+      "files": [
+        ".signature.p7s",
+        "anglesharp.0.10.1.nupkg.sha512",
+        "anglesharp.nuspec",
+        "lib/net46/AngleSharp.dll",
+        "lib/net46/AngleSharp.xml",
+        "lib/netstandard1.3/AngleSharp.dll",
+        "lib/netstandard1.3/AngleSharp.xml",
+        "lib/netstandard2.0/AngleSharp.dll",
+        "lib/netstandard2.0/AngleSharp.xml"
+      ]
+    },
     "Google.Protobuf/3.5.1": {
       "sha512": "j/gbpRZ68sgvdi/vXI39Cj/jWG4d1dtDqfWbkjC9dErNWu/dFcIlq1LIgLscea+llZ6nzm06wz/JGziOegAL7Q==",
       "type": "package",
@@ -11672,6 +11700,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "AngleSharp >= 0.10.1",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
@@ -11695,7 +11724,7 @@
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/alfonsoleone/.nuget/NuGet/NuGet.Config"
+        "/Users/alfonsoleone/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
@@ -11717,6 +11746,10 @@
     "frameworks": {
       "netcoreapp2.1": {
         "dependencies": {
+          "AngleSharp": {
+            "target": "Package",
+            "version": "[0.10.1, )"
+          },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
             "target": "Package",
@@ -11729,6 +11762,7 @@
             "version": "[2.1.2, )"
           },
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true

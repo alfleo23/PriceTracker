@@ -26,6 +26,10 @@
   "frameworks": {
     "netcoreapp2.1": {
       "dependencies": {
+        "AngleSharp": {
+          "target": "Package",
+          "version": "[0.10.1, )"
+        },
         "Microsoft.AspNetCore.App": {
           "suppressParent": "All",
           "target": "Package",

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "cf74fd585a0d166e84a653e09b75f17ed930ab63"
+    "signature": "f2210dd6815a617c047a91f7584b4f3e6c983247"
   },
   "compilationOptions": {
     "defines": [
@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v2.1": {
       "PriceTracker/1.0.0": {
         "dependencies": {
+          "AngleSharp": "0.10.1",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.AspNetCore.Razor.Design": "2.1.2",
           "Microsoft.NETCore.App": "2.1.0",
@@ -34,6 +35,20 @@
         },
         "compile": {
           "PriceTracker.dll": {}
+        }
+      },
+      "AngleSharp/0.10.1": {
+        "dependencies": {
+          "System.Text.Encoding.CodePages": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AngleSharp.dll": {
+            "assemblyVersion": "0.10.1.0",
+            "fileVersion": "0.10.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AngleSharp.dll": {}
         }
       },
       "Google.Protobuf/3.5.1": {
@@ -3254,6 +3269,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AngleSharp/0.10.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lF8j0OjUldkbhdGUjRePGmHLcb0oJsAnYh3ZQ0YfKp1oS8C6wER/RwuUze/lf/C29ENlWWhzQFMbMTQnzcPBAg==",
+      "path": "anglesharp/0.10.1",
+      "hashPath": "anglesharp.0.10.1.nupkg.sha512"
     },
     "Google.Protobuf/3.5.1": {
       "type": "package",
