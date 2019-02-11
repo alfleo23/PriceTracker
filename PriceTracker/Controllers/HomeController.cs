@@ -31,6 +31,11 @@ namespace PriceTracker.Controllers
             return View();
         }
 
+        public IActionResult SavedSearch()
+        {
+            return View();
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -50,7 +55,7 @@ namespace PriceTracker.Controllers
             return View();
         }
 
-        public IActionResult Search()
+        /*public IActionResult Search()
         {
             var instResult = new Result();
 
@@ -66,7 +71,7 @@ namespace PriceTracker.Controllers
             }
             
             return View();
-        }
+        }*/
 
         public string TestSelect()
         {
