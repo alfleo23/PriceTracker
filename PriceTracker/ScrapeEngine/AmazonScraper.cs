@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Dom;
+using PriceTracker.Models;
+using testRetailerClasses;
 
-namespace testRetailerClasses
+namespace PriceTracker.ScrapeEngine
 {
     //TODO need to modify this class to work with entity framework
     public class AmazonScraper : Retailer
@@ -19,7 +22,7 @@ namespace testRetailerClasses
             ProductPriceSelector = ".s-price";
         }
 
-        public async Task ScrapePricesForProduct(string productName)
+        public async Task<Hashtable> ScrapePricesForProduct(string productName)
         {
             var similarity = 3000;
             var bestSimilarityCoefficient = 3000;
@@ -54,21 +57,25 @@ namespace testRetailerClasses
             Console.WriteLine("Found product: " + productHeadings[headingIndex].Text() + "\n" + "price: " + productPrices[headingIndex].Text());
             Console.WriteLine("");
 
-            //var dao = new DAO();
             var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
             var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
-            //dao.InsertPrice(formattedPriceDouble, "Amazon");
-
             
-            // stupid logic for standard deviation
-            List<double> productPricesFormatted = new List<double> {};
+            var productPricesFormatted = new List<double> {};
             foreach (var price in productPrices)
             {
-                productPricesFormatted.Add(Convert.ToDouble(price.TextContent.Replace('£', ' ')));
+                productPricesFormatted.Add(formattedPriceDouble);
             }
             
+            // stupid logic for standard deviation
             Console.WriteLine("Standard deviation is: " + StringSimilarity.CalculateStandardDeviation(productPricesFormatted));
             Console.WriteLine("");
+            
+            var hashTable = new Hashtable();
+            hashTable.Add("Price", productPrices[headingIndex].Text());
+            hashTable.Add("Formatted Price", formattedPrice);
+            hashTable.Add("Similarity", formattedPrice);
+
+            return hashTable;
         }
         
     }

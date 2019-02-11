@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PriceTracker.Models
 {
-    public partial class Result
+    public class Result
     {
         public int ResultId { get; set; }
         public DateTime? Date { get; set; }

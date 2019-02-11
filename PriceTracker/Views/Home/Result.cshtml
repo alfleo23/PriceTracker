@@ -1,0 +1,29 @@
+@model PriceTracker.Models.Result
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<h2 style="text-align: center; margin-top: 5%; margin-bottom: 5%">@ViewData["Title"]</h2>
+
+
+<p style="text-align: center; font-weight: 700;">@ViewBag.ProductDescription</p>
+<table style="height: 39px; margin-left: auto; margin-right: auto;" width="518">
+    <tbody>
+    <tr>
+        <td style="width: 165px; text-align: center;">
+            Amazon Price
+            <p>@Model.AmazonPrice</p>
+        </td>
+            
+        <td style="width: 165px; text-align: center;">Ebay Price</td>
+            
+        <td style="width: 166px; text-align: center;">John Lewis Price</td>
+    </tr>
+    </tbody>
+</table>
+@* ReSharper disable once CssNotResolved *@
+<button type="button" class="btn btn-primary" style="margin-inline-start: 44%; margin-top: 4%;">Save Search</button>
+
+<p>&nbsp;</p>
+<hr>

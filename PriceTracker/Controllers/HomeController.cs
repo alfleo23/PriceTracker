@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PriceTracker.Models;
+using PriceTracker.ScrapeEngine;
+using testRetailerClasses;
 
 namespace PriceTracker.Controllers
 {
@@ -29,6 +32,39 @@ namespace PriceTracker.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Result()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Result(string search)
+        {
+            var amazon = new AmazonScraper();
+            Hashtable amazonResults;
+            ViewBag.ProductDescription = search;
+            
+            try
+            {
+                amazonResults = await amazon.ScrapePricesForProduct(search);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
+            // create new result
+            //TODO add prices into the result object from other retailers once implemented
+            var result = new Result()
+            {
+                Date = DateTime.Today,
+                AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"])
+            };
+            
+            return View(result);
         }
 
         public IActionResult SavedSearch()

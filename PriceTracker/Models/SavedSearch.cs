@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PriceTracker.Models
 {
-    public partial class SavedSearch
+    public class SavedSearch
     {
         public SavedSearch()
         {
