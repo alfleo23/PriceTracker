@@ -21,12 +21,12 @@ namespace PriceTracker.Controllers
         {
             _context = context;
             
-//            using (_context)
-//            {
-//                var testConnection = _context.Database.EnsureCreated();
-//                var test = _context.Database.ToString();
-//                Console.WriteLine("");
-//            }
+            /*using (_context)
+            {
+                var testConnection = _context.Database.EnsureCreated();
+                var test = _context.Database.ToString();
+                Console.WriteLine("");
+            }*/
         }
         
         public IActionResult Index()
@@ -46,6 +46,7 @@ namespace PriceTracker.Controllers
             Hashtable amazonResults;
             ViewBag.ProductDescription = search;
             
+            // scrape retailers
             try
             {
                 amazonResults = await amazon.ScrapePricesForProduct(search);
@@ -55,7 +56,7 @@ namespace PriceTracker.Controllers
                 Console.WriteLine(e);
                 throw;
             }
-            
+
             // create new result
             //TODO add prices into the result object from other retailers once implemented
             var result = new Result()
@@ -64,7 +65,42 @@ namespace PriceTracker.Controllers
                 AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"])
             };
             
-            return View(result);
+            //create Saved Search
+            var savedSearch = new SavedSearch()
+            {
+                CreatedDate = DateTime.Today,
+                Description = search,
+                // id probably not needed
+//                SavedSearchId = result.ResultId
+            };
+            
+            // create save search view model
+            var saveSearchViewModel = new SaveSearchViewModel()
+            {
+                Result = result,
+                SavedSearch = savedSearch
+            };
+            
+            return View(saveSearchViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Save(SaveSearchViewModel s)
+        {
+            // save search into db
+            try
+            {
+                _context.Result.Add(s.Result);
+                _context.SavedSearch.Add(s.SavedSearch);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return View("SavedSearch");
         }
 
         public IActionResult SavedSearch()
@@ -76,18 +112,6 @@ namespace PriceTracker.Controllers
         {
             ViewData["Message"] = "Your application description page.";
 
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
