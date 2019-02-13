@@ -104,6 +104,7 @@ namespace PriceTracker.Controllers
                 s.SavedSearch.Result.Add(s.Result);
                 _context.SavedSearch.Add(s.SavedSearch);
                 _context.SaveChanges();
+                //test
             }
             catch (Exception e)
             {
