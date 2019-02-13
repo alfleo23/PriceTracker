@@ -39,6 +39,7 @@
     <button type="submit" value="SaveSearchViewModel" class="btn btn-primary" style="margin-inline-start: 44%; margin-top: 4%;">Save Search</button>
 </form>*@
 
+@* ReSharper disable once CssNotResolved *@
 @using (Html.BeginForm("Save", "Home", FormMethod.Post))
 {
     @Html.EditorFor(model => Model.Result.Date)
