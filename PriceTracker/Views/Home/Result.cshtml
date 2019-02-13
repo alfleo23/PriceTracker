@@ -30,41 +30,31 @@
 </table>
 
 
-<form asp-action="Save" asp-controller="Home">
+@*<form asp-action="Save" asp-controller="Home">
     @Html.TextBoxFor(model => model.Result.Date)
     @Html.TextBoxFor(model => model.Result.AmazonPrice)
     @Html.TextBoxFor(model => model.SavedSearch.Description)
     @Html.TextBoxFor(model => model.SavedSearch.CreatedDate)
     
+    <button type="submit" value="SaveSearchViewModel" class="btn btn-primary" style="margin-inline-start: 44%; margin-top: 4%;">Save Search</button>
+</form>*@
+
+@using (Html.BeginForm("Save", "Home", FormMethod.Post))
+{
+    @Html.EditorFor(model => Model.Result.Date)
+    @Html.EditorFor(model => Model.Result.AmazonPrice)
+    @Html.EditorFor(model => Model.SavedSearch.CreatedDate)
+    @Html.EditorFor(model => Model.SavedSearch.Description)
     
-<button type="submit" class="btn btn-primary" style="margin-inline-start: 44%; margin-top: 4%;">Save Search</button>
-    
-</form>
+    <button type="submit" value="save search" class="btn btn-primary" style="margin-inline-start: 44%; margin-top: 4%;">Save Search</button>
+}
 
-
-
-
-
-@* button onclick not working bullshit *@
-@* onclick="location.href = '@Url.Action("Save", "Home", @Model)'" *@
-
-@* ReSharper disable once CssNotResolved *@
-@* <button type="submit" formmethod="post" id="saveSearchButton" class="btn btn-primary" style="margin-inline-start: 44%; margin-top: 4%;">Save Search</button> *@
 <p>&nbsp;</p>
+<hr>
 
 
 @* utter bullshit *@
 @*<script type="text/javascript">
-    var modelToPass = {
-        Result: {
-            Date : @DateTime.Today.ToShortDateString(),
-            AmazonPrice: '@Model.Result.AmazonPrice'
-        },
-        SavedSearch:{
-            CreatedDate : @DateTime.Today.ToShortDateString(),
-            Description : '@Model.SavedSearch.Description'
-        }
-    }
     $("#saveSearchButton").click(function () {
         var modelToPass = {
             Result: {
@@ -86,4 +76,3 @@
     })
 </script>*@
 
-<hr>

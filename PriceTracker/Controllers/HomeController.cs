@@ -75,13 +75,13 @@ namespace PriceTracker.Controllers
             };
             
             // create save search view model
-            var saveSearchViewModel = new SaveSearchViewModel()
+            var viewModel = new SaveSearchViewModel()
             {
                 Result = result,
                 SavedSearch = savedSearch
             };
             
-            return View(saveSearchViewModel);
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -90,7 +90,18 @@ namespace PriceTracker.Controllers
             // save search into db
             try
             {
+                /*_context.SavedSearch.Add(s.SavedSearch);
+                _context.SaveChanges();
+                
+                // dangerous approach..leads to incongruity if there are more db accesses from different users
+                var lastInserted = _context.SavedSearch.Last();
+                var id = lastInserted.SavedSearchId;
+                s.Result.SavedSearchId = id;
+                
                 _context.Result.Add(s.Result);
+                _context.SaveChanges();*/
+                
+                s.SavedSearch.Result.Add(s.Result);
                 _context.SavedSearch.Add(s.SavedSearch);
                 _context.SaveChanges();
             }
@@ -100,7 +111,7 @@ namespace PriceTracker.Controllers
                 throw;
             }
 
-            return View("SavedSearch");
+            return View("SavedSearch", new SavedSearch());
         }
 
         public IActionResult SavedSearch()
@@ -114,24 +125,6 @@ namespace PriceTracker.Controllers
 
             return View();
         }
-
-        /*public IActionResult Search()
-        {
-            var instResult = new Result();
-
-            try
-            {
-                _context.Result.Add(instResult);
-                _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            
-            return View();
-        }*/
 
         public string TestSelect()
         {

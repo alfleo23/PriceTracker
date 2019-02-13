@@ -11,31 +11,16 @@
 
         <form asp-action="Result" asp-controller="Home" style="margin: 0 auto">
             <div class="form-group" style="margin: auto;">
-                <input type="text" class="form-control" name="search" id="search" placeholder="search products..." size="50" style="margin: auto;">
+                <input type="text" class="form-control" name="search" id="search" placeholder="search products..." size="50" style="margin: auto;" autofocus>
                 <input type="submit" 
                        style="position: absolute; left: -9999px; width: 1px; height: 1px;"
                        tabindex="-1" />
             </div>
         </form>
-
-        @* test form *@
-@*         @using (Html.BeginForm()) *@
-@*         { *@
-@*             <p> *@
-@*                 @Html.Label("hello") *@
-@*                 @Html.Editor("hello") *@
-@*             </p> *@
-@*              *@
-@*             <p> *@
-@*                 @Html.Label("cazz") *@
-@*                 @Html.Editor("cazz") *@
-@*             </p> *@
-@*         } *@
-     </div>
-    
+    </div>
 </div>
 
-<!--   
+<!-- 
 ░░▄░░░▄░▄▄▄▄░░░░░░░░░░░░░░░
 ░░█▀▄▀█░█▄▄░░░░░░░░░░░░░░░░
 ░░█░░░█░█▄▄▄░░░░░░░░░░░░░░░
