@@ -81,7 +81,7 @@ using Microsoft.AspNetCore.Razor.Language;
             WriteLiteral("<div class=\"container\" style=\"margin-top: 5%; margin-bottom: 15%\">\n    <div class=\"row\">\n\n        ");
             EndContext();
             BeginContext(284, 492, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1574a0d1bba54242ac51dd61f8a3f3f7", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "28b43ca525c8468188384b80d945abd7", async() => {
                 BeginContext(355, 414, true);
                 WriteLiteral(@"
             <div class=""form-group"" style=""margin: auto;"">

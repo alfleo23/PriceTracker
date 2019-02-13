@@ -54,7 +54,7 @@ using PriceTracker.Models;
             WriteLiteral("<html lang=\"en\">");
             EndContext();
             BeginContext(16, 654, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2a8424d7642e46a7b9574aa8c853ad12", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0254ace40a9b4faab1e0d0f76aa5d287", async() => {
                 BeginContext(22, 641, true);
                 WriteLiteral(@"
     <title>Price Tracker</title>
@@ -88,7 +88,7 @@ using PriceTracker.Models;
             WriteLiteral("\n");
             EndContext();
             BeginContext(671, 1756, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8b14e73eecc34dc7ae59661f10ace160", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2f931e3d3fe24671a65722f8b3d3c8b5", async() => {
                 BeginContext(677, 252, true);
                 WriteLiteral("\n\n<div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding: 1rem 2rem\">\n    <h1>Price Tracker and Comparator</h1>\n    <p>Final year uni project</p>\n</div>\n\n<nav class=\"navbar navbar-expand-sm bg-dark navbar-dark\">\n    <a class=\"navbar-brand\"");
                 EndContext();
