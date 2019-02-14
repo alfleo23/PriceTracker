@@ -119,7 +119,10 @@ namespace PriceTracker.Controllers
         public IActionResult SavedSearch()
         {
             // need to retrieve all saved searches from db and pass it to the view as a model
-            return View();
+
+            var savedSearches = _context.SavedSearch.ToArray();
+            
+            return View(savedSearches);
         }
 
         public IActionResult About()
