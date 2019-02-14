@@ -9,7 +9,6 @@ using testRetailerClasses;
 
 namespace PriceTracker.ScrapeEngine
 {
-    //TODO need to modify this class to work with entity framework
     public class AmazonScraper : Retailer
     {
         private IHtmlCollection<IElement> productHeadings;

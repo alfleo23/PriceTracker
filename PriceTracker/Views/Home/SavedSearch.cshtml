@@ -1,7 +1,34 @@
-@model object
+@model List<SavedSearch>
 
 @{
     ViewBag.Title = "title";
 }
 
-<h2 style="text-align: center">Saved Searches</h2>
+<h2 style="text-align: center; padding: 4%">Saved Searches</h2>
+
+@foreach(SavedSearch savedSearch in Model)
+    {
+        <p style="text-align: center; font-weight: 700;">@savedSearch.Description</p>
+        <table style="height: 39px; margin-left: auto; margin-right: auto;" width="518">
+            <tbody>
+            <tr>
+                <td style="width: 165px; text-align: center;">
+                    Amazon Price
+                    <p>£@(savedSearch.Results.FirstOrDefault().AmazonPrice.HasValue ? (object) savedSearch.Results.FirstOrDefault().AmazonPrice : "")</p>
+                </td>
+            
+                <td style="width: 165px; text-align: center;">
+                    Ebay Price
+                    @* <p>@{(Model.EbayPrice.HasValue) ?  Model.AmazonPrice : "no price"}</p> *@
+                </td>
+            
+                <td style="width: 166px; text-align: center;">
+                    John Lewis Price
+                    @* <p>@(Model.JohnLewisPrice.HasValue) ? £ Model.AmazonPrice : "no price"</p> *@
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        
+        <hr/>
+    }

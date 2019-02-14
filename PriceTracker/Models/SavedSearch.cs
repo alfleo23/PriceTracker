@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace PriceTracker.Models
@@ -15,5 +16,6 @@ namespace PriceTracker.Models
         public DateTime? CreatedDate { get; set; }
 
         public virtual ICollection<Result> Results { get; set; }
+        
     }
 }
