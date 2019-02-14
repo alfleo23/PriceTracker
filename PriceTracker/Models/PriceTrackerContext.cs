@@ -54,7 +54,7 @@ namespace PriceTracker.Models
                     .HasDefaultValueSql("NULL");
 
                 entity.HasOne(d => d.SavedSearch)
-                    .WithMany(p => p.Result)
+                    .WithMany(p => p.Results)
                     .HasForeignKey(d => d.SavedSearchId)
                     .HasConstraintName("SavedSearchID");
             });

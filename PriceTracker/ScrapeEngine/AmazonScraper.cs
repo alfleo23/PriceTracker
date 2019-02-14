@@ -28,7 +28,7 @@ namespace PriceTracker.ScrapeEngine
             var bestSimilarityCoefficient = 3000;
             var headingIndex = 0;
             
-            var configuration = AngleSharp.Configuration.Default.WithDefaultLoader().WithCookies().WithMetaRefresh();
+            var configuration = Configuration.Default.WithDefaultLoader().WithCookies().WithMetaRefresh();
             var context = BrowsingContext.New(configuration);
             await context.OpenAsync(SearchUrlSelector + productName);
             

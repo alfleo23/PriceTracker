@@ -90,19 +90,19 @@ namespace PriceTracker.Controllers
             // save search into db
             try
             {
-                /*_context.SavedSearch.Add(s.SavedSearch);
+                //HACKERMAN
+                _context.Database.ExecuteSqlCommand("SET foreign_key_checks = 0;");
+
+                _context.SavedSearch.Add(s.SavedSearch);
                 _context.SaveChanges();
                 
                 // dangerous approach..leads to incongruity if there are more db accesses from different users
+                //todo consider locking the table while doing the magic
                 var lastInserted = _context.SavedSearch.Last();
                 var id = lastInserted.SavedSearchId;
                 s.Result.SavedSearchId = id;
                 
                 _context.Result.Add(s.Result);
-                _context.SaveChanges();*/
-                
-                s.SavedSearch.Result.Add(s.Result);
-                _context.SavedSearch.Add(s.SavedSearch);
                 _context.SaveChanges();
             }
             catch (Exception e)
@@ -111,12 +111,18 @@ namespace PriceTracker.Controllers
                 throw;
             }
 
-            return View("SavedSearch", new SavedSearch());
+            // can probably redirect to other controller
+//            return View("SavedSearch", new SavedSearch());
+            return RedirectToAction("SavedSearch", "Home");
         }
 
         public IActionResult SavedSearch()
         {
-            return View();
+            // need to retrieve all saved searches from db and pass it to the view as a model
+
+            var savedSearches = _context.SavedSearch.ToArray();
+            
+            return View(savedSearches);
         }
 
         public IActionResult About()
