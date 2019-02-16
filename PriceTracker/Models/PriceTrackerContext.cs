@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace PriceTracker.Models
 {
@@ -12,6 +13,7 @@ namespace PriceTracker.Models
 
         public PriceTrackerContext(DbContextOptions<PriceTrackerContext> options) : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Result> Result { get; set; }
