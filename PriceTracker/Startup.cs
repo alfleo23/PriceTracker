@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -35,9 +36,7 @@ namespace PriceTracker
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
-            //TODO: move to config file
-            var connection = "server=localhost; Port=3306; uid=root; database=PriceTracker;";
-            services.AddDbContext<PriceTrackerContext>(options => options.UseMySQL(connection));
+            services.AddDbContext<PriceTrackerContext>(options => options.UseMySQL(Configuration.GetConnectionString("PriceTrackerDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

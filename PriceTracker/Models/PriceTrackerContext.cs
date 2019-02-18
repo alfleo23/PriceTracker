@@ -1,4 +1,6 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
@@ -23,9 +25,7 @@ namespace PriceTracker.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //TODO: move to configuration file
-                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySQL("server=localhost; Port=3306; uid=root; database=PriceTracker;");
+                optionsBuilder.UseMySQL(Database.GetDbConnection().ConnectionString);
             }
         }
 
