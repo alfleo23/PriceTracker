@@ -13,17 +13,17 @@
     <tr>
         <td style="width: 165px; text-align: center;">
             Amazon Price
-            <p>@Model.Result.AmazonPrice</p>
+            <p>£@(Model.Result.AmazonPrice.HasValue ? (object) Model.Result.AmazonPrice : "---")</p>
         </td>
             
         <td style="width: 165px; text-align: center;">
             Ebay Price
-            @* <p>@{(Model.EbayPrice.HasValue) ?  Model.AmazonPrice : "no price"}</p> *@
+            <p>£@(Model.Result.EbayPrice.HasValue ? (object) Model.Result.EbayPrice : "---")</p>
         </td>
             
         <td style="width: 166px; text-align: center;">
             John Lewis Price
-            @* <p>@(Model.JohnLewisPrice.HasValue) ? £ Model.AmazonPrice : "no price"</p> *@
+            <p>£@(Model.Result.JohnLewisPrice.HasValue ? (object) Model.Result.JohnLewisPrice : "---")</p>
         </td>
     </tr>
     </tbody>
@@ -44,6 +44,8 @@
 {
     @Html.HiddenFor(model => Model.Result.Date)
     @Html.HiddenFor(model => Model.Result.AmazonPrice)
+    @Html.HiddenFor(model => Model.Result.EbayPrice)
+    @Html.HiddenFor(model => Model.Result.JohnLewisPrice)
     @Html.HiddenFor(model => Model.SavedSearch.CreatedDate)
     @Html.HiddenFor(model => Model.SavedSearch.Description)
     
@@ -54,7 +56,6 @@
 <hr>
 
 
-@* utter bullshit *@
 @*<script type="text/javascript">
     $("#saveSearchButton").click(function () {
         var modelToPass = {

@@ -8,17 +8,17 @@ using PriceTracker.Models;
 
 namespace PriceTracker.ScrapeEngine
 {
-    public class AmazonScraper : Retailer
+    public class EbayScraper : Retailer
     {
         //keep the scrapers in different classes to have custom implementations int the future
         private IHtmlCollection<IElement> productHeadings;
         private IHtmlCollection<IElement> productPrices;
         
-        public AmazonScraper()
+        public EbayScraper()
         {
-            SearchUrlSelector = "https://www.amazon.co.uk/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=";
-            ProductHeadingSelector = ".s-access-title";
-            ProductPriceSelector = ".s-price";
+            SearchUrlSelector = "https://www.ebay.co.uk/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313.TR12.TRC2.A0.H0.X{productPlaceHolder}.TRS0&_nkw={productPlaceHolder}&_sacat=0&LH_ItemCondition=1000";
+            ProductHeadingSelector = ".vip";
+            ProductPriceSelector = ".prc .bold";
         }
 
         public async Task<Hashtable> ScrapePricesForProduct(string productName)
@@ -29,7 +29,8 @@ namespace PriceTracker.ScrapeEngine
             
             var configuration = Configuration.Default.WithDefaultLoader().WithCookies().WithMetaRefresh();
             var context = BrowsingContext.New(configuration);
-            await context.OpenAsync(SearchUrlSelector + productName);
+            var searchPath = SearchUrlSelector.Replace("{productPlaceHolder}", productName);
+            await context.OpenAsync(searchPath);
             
             // get headings
             productHeadings = context.Active.QuerySelectorAll(ProductHeadingSelector);
@@ -51,12 +52,12 @@ namespace PriceTracker.ScrapeEngine
             }
 
             
-            Console.WriteLine("Amazon -------------");
-            Console.WriteLine("Amazon best similarity " + bestSimilarityCoefficient);
-            Console.WriteLine("Found product: " + productHeadings[headingIndex].Text() + "\n" + "price: " + productPrices[headingIndex].Text());
+            Console.WriteLine("Ebay -------------");
+            Console.WriteLine("Ebay best similarity " + bestSimilarityCoefficient);
+            Console.WriteLine("Found product: " + productHeadings[headingIndex].Text() + "\n" + "price: " + productPrices[headingIndex].Text().Trim());
             Console.WriteLine("");
 
-            var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
+            var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ').Trim();
             var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
             
             var productPricesFormatted = new List<double> {};

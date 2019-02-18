@@ -1,4 +1,4 @@
-namespace testRetailerClasses
+namespace PriceTracker.ScrapeEngine
 {
     public class Retailer
     {

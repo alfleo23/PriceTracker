@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PriceTracker.Models;
 using PriceTracker.ScrapeEngine;
-using testRetailerClasses;
 
 namespace PriceTracker.Controllers
 {
@@ -43,12 +42,18 @@ namespace PriceTracker.Controllers
         public async Task<IActionResult> Result(string search)
         {
             var amazon = new AmazonScraper();
+            var ebay = new EbayScraper();
+            var jLewis = new JohnLewisScraper();
             Hashtable amazonResults;
+            Hashtable ebayResults;
+            Hashtable jLewisResults;
             ViewBag.ProductDescription = search;
             
             // scrape retailers
             try
             {
+                jLewisResults = await jLewis.ScrapePricesForProduct(search);
+                ebayResults = await ebay.ScrapePricesForProduct(search);
                 amazonResults = await amazon.ScrapePricesForProduct(search);
             }
             catch (Exception e)
@@ -61,17 +66,17 @@ namespace PriceTracker.Controllers
             //TODO add prices into the result object from other retailers once implemented
             var result = new Result()
             {
-                Date = DateTime.Today,
-                AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"])
+                Date = DateTime.Now,
+                AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"]),
+                EbayPrice = Convert.ToDouble(ebayResults["Formatted Price"]),
+                JohnLewisPrice = Convert.ToDouble(jLewisResults["Formatted Price"])
             };
             
             //create Saved Search
             var savedSearch = new SavedSearch()
             {
-                CreatedDate = DateTime.Today,
+                CreatedDate = DateTime.Now,
                 Description = search,
-                // id probably not needed
-//                SavedSearchId = result.ResultId
             };
             
             // create save search view model
@@ -90,7 +95,6 @@ namespace PriceTracker.Controllers
             // save search into db
             try
             {
-                //HACKERMAN
                 _context.Database.ExecuteSqlCommand("SET foreign_key_checks = 0;");
 
                 _context.SavedSearch.Add(s.SavedSearch);
@@ -111,8 +115,6 @@ namespace PriceTracker.Controllers
                 throw;
             }
 
-            // can probably redirect to other controller
-//            return View("SavedSearch", new SavedSearch());
             return RedirectToAction("SavedSearch", "Home");
         }
 
@@ -144,7 +146,7 @@ namespace PriceTracker.Controllers
             var stringBuilder = new StringBuilder();
             foreach (var r in result)
             {
-                stringBuilder.AppendLine(r.Date.ToString() + r.AmazonPrice + r.JohnLewisPrice + r.ResultId);
+                stringBuilder.AppendLine($"{r.Date.ToString()}  {r.AmazonPrice}  {r.JohnLewisPrice}  {r.ResultId}");
             }
 
             return stringBuilder.ToString();
