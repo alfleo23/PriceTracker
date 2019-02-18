@@ -29,7 +29,7 @@ namespace PriceTracker.ScrapeEngine
             
             var configuration = Configuration.Default.WithDefaultLoader().WithCookies().WithMetaRefresh();
             var context = BrowsingContext.New(configuration);
-            var searchPath = SearchUrlSelector.Replace("productPlaceHolder", productName);
+            var searchPath = SearchUrlSelector.Replace("{productPlaceHolder}", productName);
             await context.OpenAsync(searchPath);
             
             // get headings
@@ -52,12 +52,12 @@ namespace PriceTracker.ScrapeEngine
             }
 
             
-            Console.WriteLine("Ebay best similarity " + bestSimilarityCoefficient);
             Console.WriteLine("Ebay -------------");
-            Console.WriteLine("Found product: " + productHeadings[headingIndex].Text() + "\n" + "price: " + productPrices[headingIndex].Text());
+            Console.WriteLine("Ebay best similarity " + bestSimilarityCoefficient);
+            Console.WriteLine("Found product: " + productHeadings[headingIndex].Text() + "\n" + "price: " + productPrices[headingIndex].Text().Trim());
             Console.WriteLine("");
 
-            var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
+            var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ').Trim();
             var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
             
             var productPricesFormatted = new List<double> {};
@@ -74,7 +74,7 @@ namespace PriceTracker.ScrapeEngine
             {
                 {"Price", productPrices[headingIndex].Text()},
                 {"Formatted Price", formattedPrice},
-                {"Similarity", formattedPrice}
+                {"Similarity", bestSimilarityCoefficient}
             };
 
             return hashTable;

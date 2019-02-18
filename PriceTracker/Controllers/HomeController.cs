@@ -43,13 +43,16 @@ namespace PriceTracker.Controllers
         {
             var amazon = new AmazonScraper();
             var ebay = new EbayScraper();
+            var jLewis = new JohnLewisScraper();
             Hashtable amazonResults;
             Hashtable ebayResults;
+            Hashtable jLewisResults;
             ViewBag.ProductDescription = search;
             
             // scrape retailers
             try
             {
+                jLewisResults = await jLewis.ScrapePricesForProduct(search);
                 ebayResults = await ebay.ScrapePricesForProduct(search);
                 amazonResults = await amazon.ScrapePricesForProduct(search);
             }
@@ -63,15 +66,16 @@ namespace PriceTracker.Controllers
             //TODO add prices into the result object from other retailers once implemented
             var result = new Result()
             {
-                Date = DateTime.Today,
+                Date = DateTime.Now,
                 AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"]),
-                EbayPrice = Convert.ToDouble(ebayResults["Formatted Price"])
+                EbayPrice = Convert.ToDouble(ebayResults["Formatted Price"]),
+                JohnLewisPrice = Convert.ToDouble(jLewisResults["Formatted Price"])
             };
             
             //create Saved Search
             var savedSearch = new SavedSearch()
             {
-                CreatedDate = DateTime.Today,
+                CreatedDate = DateTime.Now,
                 Description = search,
             };
             
