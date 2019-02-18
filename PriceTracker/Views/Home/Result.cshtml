@@ -8,24 +8,39 @@
 
 
 <p style="text-align: center; font-weight: 700;">@ViewBag.ProductDescription</p>
-<table style="height: 39px; margin-left: auto; margin-right: auto;" width="518">
+<table style="height: 39px; margin-left: auto; margin-right: auto; margin-top: 3%" width="70%">
     <tbody>
-    <tr>
-        <td style="width: 165px; text-align: center;">
-            Amazon Price
-            <p>£@(Model.Result.AmazonPrice.HasValue ? (object) Model.Result.AmazonPrice : "---")</p>
-        </td>
+        <tr>
+            <td style="width: 165px; text-align: center;">
+                Amazon Price
+                <p>£@(Model.Result.AmazonPrice.HasValue ? (object) Model.Result.AmazonPrice : "---")</p>
+            </td>
+                
+            <td style="width: 165px; text-align: center;">
+                Ebay Price
+                <p>£@(Model.Result.EbayPrice.HasValue ? (object) Model.Result.EbayPrice : "---")</p>
+            </td>
+                
+            <td style="width: 166px; text-align: center;">
+                John Lewis Price
+                <p>£@(Model.Result.JohnLewisPrice.HasValue ? (object) Model.Result.JohnLewisPrice : "---")</p>
+            </td>
+        </tr>
+        
+        @* Links *@
+        <tr>
+            <td style="width: 166px; text-align: center;">
+                <a href="@(!string.IsNullOrEmpty(Model.Result.AmazonLink) ? (object) Model.Result.AmazonLink: "---")" title="@Model.Result.AmazonHeading">
+                    @Model.Result.AmazonHeading.Truncate(30)
+                </a>    
+            </td>
             
-        <td style="width: 165px; text-align: center;">
-            Ebay Price
-            <p>£@(Model.Result.EbayPrice.HasValue ? (object) Model.Result.EbayPrice : "---")</p>
-        </td>
-            
-        <td style="width: 166px; text-align: center;">
-            John Lewis Price
-            <p>£@(Model.Result.JohnLewisPrice.HasValue ? (object) Model.Result.JohnLewisPrice : "---")</p>
-        </td>
-    </tr>
+            <td style="width: 166px; text-align: center;">
+                <a href="@(!string.IsNullOrEmpty(Model.Result.EbayLink) ? (object) Model.Result.EbayLink : "---")" title="@Model.Result.EbayHeading">
+                    @Model.Result.EbayHeading.Truncate(30)
+                </a>
+            </td>   
+        </tr>
     </tbody>
 </table>
 
@@ -39,17 +54,20 @@
     <button type="submit" value="SaveSearchViewModel" class="btn btn-primary" style="margin-inline-start: 44%; margin-top: 4%;">Save Search</button>
 </form>*@
 
-@* ReSharper disable once CssNotResolved *@
 @using (Html.BeginForm("Save", "Home", FormMethod.Post))
 {
     @Html.HiddenFor(model => Model.Result.Date)
     @Html.HiddenFor(model => Model.Result.AmazonPrice)
+    @Html.HiddenFor(model => Model.Result.AmazonHeading)
+    @Html.HiddenFor(model => Model.Result.AmazonLink)
     @Html.HiddenFor(model => Model.Result.EbayPrice)
+    @Html.HiddenFor(model => Model.Result.EbayHeading)
+    @Html.HiddenFor(model => Model.Result.EbayLink)
     @Html.HiddenFor(model => Model.Result.JohnLewisPrice)
     @Html.HiddenFor(model => Model.SavedSearch.CreatedDate)
     @Html.HiddenFor(model => Model.SavedSearch.Description)
     
-    <button type="submit" value="save search" class="btn btn-primary">Save Search</button>
+    <button type="submit" value="save search" class="btn btn-primary" style="margin-top: 3%">Save Search</button>
 }
 
 <p>&nbsp;</p>

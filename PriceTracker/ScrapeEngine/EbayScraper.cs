@@ -8,17 +8,20 @@ using PriceTracker.Models;
 
 namespace PriceTracker.ScrapeEngine
 {
-    public class EbayScraper : Retailer
+    public class EbayScraper : Scraper
     {
         //keep the scrapers in different classes to have custom implementations int the future
         private IHtmlCollection<IElement> productHeadings;
         private IHtmlCollection<IElement> productPrices;
+        private IHtmlCollection<IElement> productLinks;
+
         
         public EbayScraper()
         {
             SearchUrlSelector = "https://www.ebay.co.uk/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313.TR12.TRC2.A0.H0.X{productPlaceHolder}.TRS0&_nkw={productPlaceHolder}&_sacat=0&LH_ItemCondition=1000";
             ProductHeadingSelector = ".vip";
             ProductPriceSelector = ".prc .bold";
+            ProductLinkSelector = ".vip";
         }
 
         public async Task<Hashtable> ScrapePricesForProduct(string productName)
@@ -36,6 +39,8 @@ namespace PriceTracker.ScrapeEngine
             productHeadings = context.Active.QuerySelectorAll(ProductHeadingSelector);
             // get prices container
             productPrices = context.Active.QuerySelectorAll(ProductPriceSelector);
+            // get product links
+            productLinks = context.Active.QuerySelectorAll(ProductLinkSelector);
 
             
             for (int i = 0; i < productHeadings.Length; i++)
@@ -70,14 +75,14 @@ namespace PriceTracker.ScrapeEngine
             Console.WriteLine("Standard deviation is: " + StringSimilarity.CalculateStandardDeviation(productPricesFormatted));
             Console.WriteLine("");
 
-            var hashTable = new Hashtable
+            return new Hashtable
             {
-                {"Price", productPrices[headingIndex].Text()},
+                {"Product Heading", productHeadings[headingIndex].Text()},
+                {"Price", productPrices[headingIndex].Text().Trim()},
                 {"Formatted Price", formattedPrice},
-                {"Similarity", bestSimilarityCoefficient}
+                {"Similarity", bestSimilarityCoefficient},
+                {"Product Link", productLinks[headingIndex].GetAttribute("href")}
             };
-
-            return hashTable;
         }
         
     }

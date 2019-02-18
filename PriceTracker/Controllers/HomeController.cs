@@ -69,7 +69,11 @@ namespace PriceTracker.Controllers
                 Date = DateTime.Now,
                 AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"]),
                 EbayPrice = Convert.ToDouble(ebayResults["Formatted Price"]),
-                JohnLewisPrice = Convert.ToDouble(jLewisResults["Formatted Price"])
+                JohnLewisPrice = Convert.ToDouble(jLewisResults["Formatted Price"]),
+                AmazonLink = amazonResults["Product Link"].ToString(),
+                AmazonHeading = amazonResults["Product Heading"].ToString(),
+                EbayLink = ebayResults["Product Link"].ToString(),
+                EbayHeading = ebayResults["Product Heading"].ToString()
             };
             
             //create Saved Search
@@ -146,7 +150,7 @@ namespace PriceTracker.Controllers
             var stringBuilder = new StringBuilder();
             foreach (var r in result)
             {
-                stringBuilder.AppendLine($"{r.Date.ToString()}  {r.AmazonPrice}  {r.JohnLewisPrice}  {r.ResultId}");
+                stringBuilder.AppendLine($"{r.Date.ToString()}  {r.AmazonPrice} {r.EbayPrice} {r.JohnLewisPrice}  {r.ResultId}");
             }
 
             return stringBuilder.ToString();

@@ -8,17 +8,19 @@ using PriceTracker.Models;
 
 namespace PriceTracker.ScrapeEngine
 {
-    public class AmazonScraper : Retailer
+    public class AmazonScraper : Scraper
     {
         //keep the scrapers in different classes to have custom implementations int the future
         private IHtmlCollection<IElement> productHeadings;
         private IHtmlCollection<IElement> productPrices;
+        private IHtmlCollection<IElement> productLinks;
         
         public AmazonScraper()
         {
             SearchUrlSelector = "https://www.amazon.co.uk/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=";
             ProductHeadingSelector = ".s-access-title";
             ProductPriceSelector = ".s-price";
+            ProductLinkSelector = ".a-link-normal.s-access-detail-page.s-color-twister-title-link.a-text-normal";
         }
 
         public async Task<Hashtable> ScrapePricesForProduct(string productName)
@@ -35,6 +37,8 @@ namespace PriceTracker.ScrapeEngine
             productHeadings = context.Active.QuerySelectorAll(ProductHeadingSelector);
             // get prices container
             productPrices = context.Active.QuerySelectorAll(ProductPriceSelector);
+            // get product links
+            productLinks = context.Active.QuerySelectorAll(ProductLinkSelector);
 
             
             for (int i = 0; i < productHeadings.Length; i++)
@@ -69,14 +73,14 @@ namespace PriceTracker.ScrapeEngine
             Console.WriteLine("Standard deviation is: " + StringSimilarity.CalculateStandardDeviation(productPricesFormatted));
             Console.WriteLine("");
 
-            var hashTable = new Hashtable
+            return new Hashtable
             {
+                {"Product Heading", productHeadings[headingIndex].Text()},
                 {"Price", productPrices[headingIndex].Text()},
                 {"Formatted Price", formattedPrice},
-                {"Similarity", bestSimilarityCoefficient}
+                {"Similarity", bestSimilarityCoefficient},
+                {"Product Link", productLinks[headingIndex].GetAttribute("href")}
             };
-
-            return hashTable;
         }
         
     }

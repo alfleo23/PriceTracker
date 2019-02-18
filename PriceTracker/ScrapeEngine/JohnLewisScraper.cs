@@ -10,7 +10,7 @@ using PriceTracker.Models;
 
 namespace PriceTracker.ScrapeEngine
 {
-    public class JohnLewisScraper : Retailer
+    public class JohnLewisScraper : Scraper
     {
         //keep the scrapers in different classes to have custom implementations int the future
         private IHtmlCollection<IElement> productHeadings;
