@@ -80,7 +80,8 @@ namespace PriceTracker.ScrapeEngine
             Console.WriteLine("");
 
             // check if there is more than one price in the price element
-            if (productPrices[headingIndex].TextContent.Contains('-'))
+            var pricesCount = productPrices[headingIndex].TextContent.Count(x => x == '£');
+            if (pricesCount != 1)
             {
                 // two prices
                 var formattedPrices = productPrices[headingIndex].TextContent.Replace('£', ' ').SplitWithTrimming('-').ToList();
