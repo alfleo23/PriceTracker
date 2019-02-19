@@ -73,7 +73,9 @@ namespace PriceTracker.Controllers
                 AmazonLink = amazonResults["Product Link"].ToString(),
                 AmazonHeading = amazonResults["Product Heading"].ToString(),
                 EbayLink = ebayResults["Product Link"].ToString(),
-                EbayHeading = ebayResults["Product Heading"].ToString()
+                EbayHeading = ebayResults["Product Heading"].ToString(),
+                JohnLewisHeading = jLewisResults["Product Heading"].ToString(),
+                JohnLewisLink = jLewisResults["Product Link"].ToString(),
             };
             
             //create Saved Search
@@ -124,8 +126,7 @@ namespace PriceTracker.Controllers
 
         public IActionResult SavedSearch()
         {
-            // need to retrieve all saved searches from db and pass it to the view as a model
-
+            //retrieve all saved searches from db and pass it to the view as a model
             var savedSearches = _context.SavedSearch.OrderByDescending(x => x.CreatedDate).Include(x => x.Results).ToList();
 
             // debug

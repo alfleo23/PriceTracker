@@ -45,7 +45,6 @@ namespace PriceTracker.Models
                     .HasDefaultValueSql("NULL");
 
                 entity.Property(e => e.AmazonLink)
-                    .HasMaxLength(5000)
                     .IsUnicode(false)
                     .HasDefaultValueSql("NULL");
 
@@ -59,11 +58,19 @@ namespace PriceTracker.Models
                     .HasDefaultValueSql("NULL");
 
                 entity.Property(e => e.EbayLink)
-                    .HasMaxLength(5000)
                     .IsUnicode(false)
                     .HasDefaultValueSql("NULL");
 
                 entity.Property(e => e.EbayPrice).HasDefaultValueSql("NULL");
+
+                entity.Property(e => e.JohnLewisHeading)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("NULL");
+
+                entity.Property(e => e.JohnLewisLink)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("NULL");
 
                 entity.Property(e => e.JohnLewisPrice).HasDefaultValueSql("NULL");
 

@@ -39,7 +39,13 @@
                 <a href="@(!string.IsNullOrEmpty(Model.Result.EbayLink) ? (object) Model.Result.EbayLink : "---")" title="@Model.Result.EbayHeading">
                     @Model.Result.EbayHeading.Truncate(30)
                 </a>
-            </td>   
+            </td>
+            
+            <td style="width: 166px; text-align: center;">
+                <a href="@(!string.IsNullOrEmpty(Model.Result.JohnLewisLink) ? (object) Model.Result.JohnLewisLink : "---")" title="@Model.Result.JohnLewisHeading">
+                    @Model.Result.JohnLewisHeading.Truncate(30)
+                </a>
+            </td>  
         </tr>
     </tbody>
 </table>
@@ -64,6 +70,8 @@
     @Html.HiddenFor(model => Model.Result.EbayHeading)
     @Html.HiddenFor(model => Model.Result.EbayLink)
     @Html.HiddenFor(model => Model.Result.JohnLewisPrice)
+    @Html.HiddenFor(model => Model.Result.JohnLewisHeading)
+    @Html.HiddenFor(model => Model.Result.JohnLewisLink)
     @Html.HiddenFor(model => Model.SavedSearch.CreatedDate)
     @Html.HiddenFor(model => Model.SavedSearch.Description)
     

@@ -14,6 +14,8 @@ namespace PriceTracker.Models
         public double? EbayPrice { get; set; }
         public string EbayLink { get; set; }
         public double? JohnLewisPrice { get; set; }
+        public string JohnLewisHeading { get; set; }
+        public string JohnLewisLink { get; set; }
         public int? SavedSearchId { get; set; }
 
         public SavedSearch SavedSearch { get; set; }
