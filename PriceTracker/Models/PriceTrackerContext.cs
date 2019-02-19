@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 namespace PriceTracker.Models
 {
@@ -42,11 +39,38 @@ namespace PriceTracker.Models
                     .HasColumnName("ResultID")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.AmazonHeading)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("NULL");
+
+                entity.Property(e => e.AmazonLink)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("NULL");
+
                 entity.Property(e => e.AmazonPrice).HasDefaultValueSql("NULL");
 
                 entity.Property(e => e.Date).HasDefaultValueSql("NULL");
 
+                entity.Property(e => e.EbayHeading)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("NULL");
+
+                entity.Property(e => e.EbayLink)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("NULL");
+
                 entity.Property(e => e.EbayPrice).HasDefaultValueSql("NULL");
+
+                entity.Property(e => e.JohnLewisHeading)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("NULL");
+
+                entity.Property(e => e.JohnLewisLink)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("NULL");
 
                 entity.Property(e => e.JohnLewisPrice).HasDefaultValueSql("NULL");
 

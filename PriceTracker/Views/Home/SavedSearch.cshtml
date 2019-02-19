@@ -6,27 +6,50 @@
 
 <h2 style="text-align: center; padding: 4%">Saved Searches</h2>
 
-@* get the most recent result for a saved search object *@
+@* get the most recent result for each saved search object *@
 @foreach(SavedSearch savedSearch in Model)
     {
         <p style="text-align: center; font-weight: 700;">@savedSearch.Description</p>
-        <table style="height: 39px; margin-left: auto; margin-right: auto;" width="518">
+        <table style="height: 39px; margin-left: auto; margin-right: auto;" width="70%">
             <tbody>
             <tr>
                 <td style="width: 165px; text-align: center;">
                     Amazon Price
                     <p>£@(savedSearch.Results.FirstOrDefault().AmazonPrice.HasValue ? (object) savedSearch.Results.FirstOrDefault().AmazonPrice : "---")</p>
                 </td>
-            
+                
                 <td style="width: 165px; text-align: center;">
                     Ebay Price
                     <p>£@(savedSearch.Results.FirstOrDefault().EbayPrice.HasValue ? (object) savedSearch.Results.FirstOrDefault().EbayPrice : "---")</p>
                 </td>
-            
+                
                 <td style="width: 166px; text-align: center;">
                     John Lewis Price
                     <p>£@(savedSearch.Results.FirstOrDefault().JohnLewisPrice.HasValue ? (object) savedSearch.Results.FirstOrDefault().JohnLewisPrice : "---")</p>
                 </td>
+            </tr>
+            
+            <tr>
+                <td style="width: 166px; text-align: center;">
+                    <a href="@savedSearch.Results.FirstOrDefault().AmazonLink" 
+                       title="@savedSearch.Results.FirstOrDefault().AmazonHeading">
+                        @savedSearch.Results.FirstOrDefault().AmazonHeading.Truncate(30)
+                    </a>    
+                </td>
+            
+                <td style="width: 166px; text-align: center;">
+                    <a href="@savedSearch.Results.FirstOrDefault().EbayLink"
+                       title="@savedSearch.Results.FirstOrDefault().EbayHeading">
+                        @savedSearch.Results.FirstOrDefault().EbayHeading.Truncate(30)
+                    </a>
+                </td>
+            
+                <td style="width: 166px; text-align: center;">
+                    <a href="@savedSearch.Results.FirstOrDefault().JohnLewisLink" 
+                       title="@savedSearch.Results.FirstOrDefault().JohnLewisHeading">
+                        @savedSearch.Results.FirstOrDefault().JohnLewisHeading
+                    </a>
+                </td>  
             </tr>
             </tbody>
         </table>

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace PriceTracker.Models
 {
-    public class SavedSearch
+    public partial class SavedSearch
     {
         public SavedSearch()
         {
@@ -15,7 +14,6 @@ namespace PriceTracker.Models
         public string Description { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public virtual ICollection<Result> Results { get; set; }
-        
+        public ICollection<Result> Results { get; set; }
     }
 }

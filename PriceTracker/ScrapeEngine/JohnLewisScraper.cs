@@ -10,17 +10,19 @@ using PriceTracker.Models;
 
 namespace PriceTracker.ScrapeEngine
 {
-    public class JohnLewisScraper : Retailer
+    public class JohnLewisScraper : Scraper
     {
         //keep the scrapers in different classes to have custom implementations int the future
         private IHtmlCollection<IElement> productHeadings;
         private IHtmlCollection<IElement> productPrices;
+        private IHtmlCollection<IElement> productLinks;
         
         public JohnLewisScraper()
         {
             SearchUrlSelector = "https://www.johnlewis.com/search?search-term={productPlaceHolder}";
             ProductHeadingSelector = ".product-card__title-inner";
             ProductPriceSelector = ".product-card__price-span";
+            ProductLinkSelector = ".product-card__image-frame";
         }
 
         public async Task<Hashtable> ScrapePricesForProduct(string productName)
@@ -38,17 +40,22 @@ namespace PriceTracker.ScrapeEngine
             productHeadings = context.Active.QuerySelectorAll(ProductHeadingSelector);
             // get prices container
             productPrices = context.Active.QuerySelectorAll(ProductPriceSelector);
+            // get product links
+            productLinks = context.Active.QuerySelectorAll(ProductLinkSelector);
 
-            // in case the url readdress to a single product page
+            // in case the url readdress to a single product page (no need to calculate string similarity as only one result in the page)
             if (productHeadings.Length == 0 || productPrices.Length == 0)
             {
                 var singleProductHeading = context.Active.QuerySelectorAll(".product-header__title");
                 var singleProductPrice = context.Active.QuerySelectorAll(".price--large");
+                var singleProductLink = context.Active.Url;
                 
                 return new Hashtable
                 {
                     {"Price", singleProductPrice.FirstOrDefault().Text().Replace('£', ' ')},
                     {"Formatted Price", singleProductPrice.FirstOrDefault().Text().Replace('£', ' ')},
+                    {"Product Link" , singleProductLink},
+                    {"Product Heading", singleProductHeading.FirstOrDefault().Text()}
                 };
             }
 
@@ -84,23 +91,25 @@ namespace PriceTracker.ScrapeEngine
                 {
                     {"Price", pricesAverage},
                     {"Formatted Price", pricesAverage},
-                    {"Similarity", bestSimilarityCoefficient}
+                    {"Similarity", bestSimilarityCoefficient},
+                    {"Product Heading", productHeadings[headingIndex].Text()},
+                    {"Product Link", "https://www.johnlewis.com" + productLinks[headingIndex].GetAttribute("href")}
                 };
             }
-            else
+
+            // only one price
+            var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
+            var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
+            
+            return new Hashtable
             {
-                // only one price
-                var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
-                var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
-            
-                return new Hashtable
-                {
-                    {"Price", productPrices[headingIndex].Text()},
-                    {"Formatted Price", formattedPrice},
-                    {"Similarity", bestSimilarityCoefficient}
-                };
-            }
-            
+                {"Price", productPrices[headingIndex].Text()},
+                {"Formatted Price", formattedPrice},
+                {"Similarity", bestSimilarityCoefficient},
+                {"Product Heading", productHeadings[headingIndex].Text()},
+                {"Product Link", "https://www.johnlewis.com" + productLinks[headingIndex].GetAttribute("href")}
+            };
+
         }
         
     }
