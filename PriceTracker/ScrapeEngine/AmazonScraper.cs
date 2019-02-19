@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Dom;
+using AngleSharp.Text;
 using PriceTracker.Models;
 
 namespace PriceTracker.ScrapeEngine
@@ -59,8 +61,44 @@ namespace PriceTracker.ScrapeEngine
             Console.WriteLine("Amazon best similarity " + bestSimilarityCoefficient);
             Console.WriteLine("Found product: " + productHeadings[headingIndex].Text() + "\n" + "price: " + productPrices[headingIndex].Text());
             Console.WriteLine("");
+            
+            
+            // check if there is more than one price in the price element
+            var pricesCount = productPrices[headingIndex].TextContent.Count(x => x == '£');
+            if (pricesCount != 1)
+            {
+                // two prices
+                var formattedPrices = productPrices[headingIndex].TextContent.Replace('£', ' ').SplitWithTrimming('-').ToList();
+                var formattedPricesDouble = formattedPrices.Select(x => double.Parse(x)).ToList();
+                var pricesAverage = formattedPricesDouble.Average();
+            
+                return new Hashtable
+                {
+                    {"Price", pricesAverage},
+                    {"Formatted Price", pricesAverage},
+                    {"Similarity", bestSimilarityCoefficient},
+                    {"Product Heading", productHeadings[headingIndex].Text()},
+                    {"Product Link", productLinks[headingIndex].GetAttribute("href")}
+                };
+            }
 
+            // only one price
             var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
+            var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
+            
+            return new Hashtable
+            {
+                {"Price", productPrices[headingIndex].Text()},
+                {"Formatted Price", formattedPrice},
+                {"Similarity", bestSimilarityCoefficient},
+                {"Product Heading", productHeadings[headingIndex].Text()},
+                {"Product Link", productLinks[headingIndex].GetAttribute("href")}
+            };
+            
+            
+            
+
+            /*var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
             var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
             
             var productPricesFormatted = new List<double> {};
@@ -80,7 +118,7 @@ namespace PriceTracker.ScrapeEngine
                 {"Formatted Price", formattedPrice},
                 {"Similarity", bestSimilarityCoefficient},
                 {"Product Link", productLinks[headingIndex].GetAttribute("href")}
-            };
+            };*/
         }
         
     }
