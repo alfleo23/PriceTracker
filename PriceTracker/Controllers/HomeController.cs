@@ -130,10 +130,10 @@ namespace PriceTracker.Controllers
             var savedSearches = _context.SavedSearch.OrderByDescending(x => x.CreatedDate).Include(x => x.Results).ToList();
 
             // debug
-//            foreach (var savedSearch in savedSearches)
-//            {
-//                Console.WriteLine(savedSearch.Results.FirstOrDefault().AmazonPrice);
-//            }
+            /*foreach (var savedSearch in savedSearches)
+            {
+                Console.WriteLine(savedSearch.Results.FirstOrDefault().AmazonPrice);
+            }*/
             
             return View(savedSearches);
         }

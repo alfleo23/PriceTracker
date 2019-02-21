@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using AngleSharp.Text;
 using PriceTracker.Models;
 
@@ -71,6 +72,9 @@ namespace PriceTracker.ScrapeEngine
                 var formattedPrices = productPrices[headingIndex].TextContent.Replace('£', ' ').SplitWithTrimming('-').ToList();
                 var formattedPricesDouble = formattedPrices.Select(x => double.Parse(x)).ToList();
                 var pricesAverage = formattedPricesDouble.Average();
+                
+                var anchorElement = (IHtmlAnchorElement) productLinks[headingIndex];
+                var link = anchorElement.Href;
             
                 return new Hashtable
                 {
@@ -78,13 +82,16 @@ namespace PriceTracker.ScrapeEngine
                     {"Formatted Price", pricesAverage},
                     {"Similarity", bestSimilarityCoefficient},
                     {"Product Heading", productHeadings[headingIndex].Text()},
-                    {"Product Link", productLinks[headingIndex].GetAttribute("href")}
+                    {"Product Link", link}
                 };
             }
 
             // only one price
             var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
-            var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
+            var formattedPriceDouble = Convert.ToDouble(formattedPrice);
+
+            var anchorElementSinglePrice = (IHtmlAnchorElement) productLinks[headingIndex];
+            var linkSinglePrice = anchorElementSinglePrice.Href;
             
             return new Hashtable
             {
@@ -92,33 +99,9 @@ namespace PriceTracker.ScrapeEngine
                 {"Formatted Price", formattedPrice},
                 {"Similarity", bestSimilarityCoefficient},
                 {"Product Heading", productHeadings[headingIndex].Text()},
-                {"Product Link", productLinks[headingIndex].GetAttribute("href")}
+                {"Product Link", linkSinglePrice}
             };
-            
-            
-            
 
-            /*var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ');
-            var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
-            
-            var productPricesFormatted = new List<double> {};
-            foreach (var price in productPrices)
-            {
-                productPricesFormatted.Add(formattedPriceDouble);
-            }
-            
-            // standard deviation
-            Console.WriteLine("Standard deviation is: " + StringSimilarity.CalculateStandardDeviation(productPricesFormatted));
-            Console.WriteLine("");
-
-            return new Hashtable
-            {
-                {"Product Heading", productHeadings[headingIndex].Text()},
-                {"Price", productPrices[headingIndex].Text()},
-                {"Formatted Price", formattedPrice},
-                {"Similarity", bestSimilarityCoefficient},
-                {"Product Link", productLinks[headingIndex].GetAttribute("href")}
-            };*/
         }
         
     }
