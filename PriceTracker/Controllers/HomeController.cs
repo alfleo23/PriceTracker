@@ -20,12 +20,15 @@ namespace PriceTracker.Controllers
         {
             _context = context;
             
-            /*using (_context)
+            // TODO need to move this stuff away from here !!
+            /*// logic to execute a callback asynchronously..will be useful for saved searches automatic updates...maybe has to be moved when the entity framework gets initialised
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromSeconds(3);
+
+            var timer = new System.Threading.Timer(e =>
             {
-                var testConnection = _context.Database.EnsureCreated();
-                var test = _context.Database.ToString();
-                Console.WriteLine("");
-            }*/
+                Console.WriteLine("hello this is executed at:" + DateTime.Now);   
+            }, null, startTimeSpan, periodTimeSpan);*/
         }
         
         public IActionResult Index()
@@ -155,6 +158,88 @@ namespace PriceTracker.Controllers
             }
 
             return stringBuilder.ToString();
+        }
+
+        public async Task<string> Update()
+        {
+            var amazon = new AmazonScraper();
+            var ebay = new EbayScraper();
+            var jLewis = new JohnLewisScraper();
+            Hashtable amazonResults;
+            Hashtable ebayResults;
+            Hashtable jLewisResults;
+            
+            //get the saved searches
+            //var savedSearches = _context.SavedSearch.OrderByDescending(x => x.CreatedDate).Include(x => x.Results).ToList();
+            
+            //testing with only one saved search to automatically update 
+            var testSavedSearch = _context.SavedSearch.Find(1);
+
+            try
+            {
+                jLewisResults = await jLewis.ScrapePricesForProduct(testSavedSearch.Description);
+                ebayResults = await ebay.ScrapePricesForProduct(testSavedSearch.Description);
+                amazonResults = await amazon.ScrapePricesForProduct(testSavedSearch.Description);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+                
+            var result = new Result()
+            {
+                Date = DateTime.Now,
+                AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"]),
+                EbayPrice = Convert.ToDouble(ebayResults["Formatted Price"]),
+                JohnLewisPrice = Convert.ToDouble(jLewisResults["Formatted Price"]),
+                AmazonLink = amazonResults["Product Link"].ToString(),
+                AmazonHeading = amazonResults["Product Heading"].ToString(),
+                EbayLink = ebayResults["Product Link"].ToString(),
+                EbayHeading = ebayResults["Product Heading"].ToString(),
+                JohnLewisHeading = jLewisResults["Product Heading"].ToString(),
+                JohnLewisLink = jLewisResults["Product Link"].ToString(),
+            };
+                
+            testSavedSearch.Results.Add(result);
+            _context.SaveChanges();
+
+            return "successful";
+
+
+
+            /*foreach (var search in testSavedSearch)
+            {
+                try
+                {
+                    jLewisResults = await jLewis.ScrapePricesForProduct(search.Description);
+                    ebayResults = await ebay.ScrapePricesForProduct(search.Description);
+                    amazonResults = await amazon.ScrapePricesForProduct(search.);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                
+                var result = new Result()
+                {
+                    Date = DateTime.Now,
+                    AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"]),
+                    EbayPrice = Convert.ToDouble(ebayResults["Formatted Price"]),
+                    JohnLewisPrice = Convert.ToDouble(jLewisResults["Formatted Price"]),
+                    AmazonLink = amazonResults["Product Link"].ToString(),
+                    AmazonHeading = amazonResults["Product Heading"].ToString(),
+                    EbayLink = ebayResults["Product Link"].ToString(),
+                    EbayHeading = ebayResults["Product Heading"].ToString(),
+                    JohnLewisHeading = jLewisResults["Product Heading"].ToString(),
+                    JohnLewisLink = jLewisResults["Product Link"].ToString(),
+                };
+                
+                search.Results.Add(result);
+            }
+
+            return "successful";*/
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -19,16 +19,8 @@ namespace PriceTracker
     {
         public Startup(IConfiguration configuration)
         {
+            //teeeesssttttttt
             Configuration = configuration;
-            
-            // logic to execute a callback asynchronously..will be useful for saved searches automatic updates...maybe has to be moved when the entity framework gets initialised
-            var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromSeconds(10);
-
-            var timer = new System.Threading.Timer(e =>
-            {
-                Console.WriteLine("hello this is executed at:" + DateTime.Now);   
-            }, null, startTimeSpan, periodTimeSpan);
         }
 
         public IConfiguration Configuration { get; }
