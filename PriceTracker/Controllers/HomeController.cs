@@ -138,6 +138,28 @@ namespace PriceTracker.Controllers
             return View(savedSearches);
         }
 
+        [HttpPost]
+        public IActionResult DeleteSearch(int savedSearchID)
+        {
+            if (savedSearchID == 0 ) return RedirectToAction("Error");
+            
+            _context.Database.ExecuteSqlCommand("SET foreign_key_checks = 0;");
+            
+            //get a unique saved search
+            var savedSearch = _context.SavedSearch.Where(search => search.SavedSearchId == savedSearchID).Include(search => search.Results).FirstOrDefault();
+            
+            if (savedSearch != null)
+            {
+                // remove all the results associated with this search id
+                _context.Result.RemoveRange(savedSearch.Results);
+                // remove saved search
+                _context.SavedSearch.Remove(savedSearch);
+                _context.SaveChanges();
+            }
+            
+            return RedirectToAction("SavedSearch", "Home");
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
