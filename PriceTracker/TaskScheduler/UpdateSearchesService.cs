@@ -19,8 +19,9 @@ namespace PriceTracker.TaskScheduler
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await _updateTask.UpdateSearches();
-                await Task.Delay(TimeSpan.FromSeconds(40), cancellationToken);
+                // this task was supposed to run on the background but the db operations are disabled
+                await UpdateTask.UpdateSearches();
+                await Task.Delay(TimeSpan.FromHours(2), cancellationToken);
             }
         }
     }

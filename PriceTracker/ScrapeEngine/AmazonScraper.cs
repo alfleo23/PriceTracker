@@ -61,7 +61,6 @@ namespace PriceTracker.ScrapeEngine
             Console.WriteLine("Amazon -------------");
             Console.WriteLine("Amazon best similarity " + bestSimilarityCoefficient);
             Console.WriteLine("Found product: " + productHeadings[headingIndex].Text() + "\n" + "price: " + productPrices[headingIndex].Text());
-            Console.WriteLine($"headings: {productHeadings.Length.ToString()}      prices: {productPrices.Length.ToString()}");
             Console.WriteLine("");
             
             

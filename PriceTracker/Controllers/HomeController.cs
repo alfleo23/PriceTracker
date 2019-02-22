@@ -19,16 +19,6 @@ namespace PriceTracker.Controllers
         public HomeController(PriceTrackerContext context)
         {
             _context = context;
-            
-            // TODO need to move this stuff away from here !!
-            /*// logic to execute a callback asynchronously..will be useful for saved searches automatic updates...maybe has to be moved when the entity framework gets initialised
-            var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromSeconds(3);
-
-            var timer = new System.Threading.Timer(e =>
-            {
-                Console.WriteLine("hello this is executed at:" + DateTime.Now);   
-            }, null, startTimeSpan, periodTimeSpan);*/
         }
         
         public IActionResult Index()
