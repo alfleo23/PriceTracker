@@ -50,16 +50,6 @@
     </tbody>
 </table>
 
-
-@*<form asp-action="Save" asp-controller="Home">
-    @Html.TextBoxFor(model => model.Result.Date)
-    @Html.TextBoxFor(model => model.Result.AmazonPrice)
-    @Html.TextBoxFor(model => model.SavedSearch.Description)
-    @Html.TextBoxFor(model => model.SavedSearch.CreatedDate)
-    
-    <button type="submit" value="SaveSearchViewModel" class="btn btn-primary" style="margin-inline-start: 44%; margin-top: 4%;">Save Search</button>
-</form>*@
-
 @using (Html.BeginForm("Save", "Home", FormMethod.Post))
 {
     @Html.HiddenFor(model => Model.Result.Date)

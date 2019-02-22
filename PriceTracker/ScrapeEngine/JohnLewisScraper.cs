@@ -62,9 +62,6 @@ namespace PriceTracker.ScrapeEngine
             
             for (int i = 0; i < productHeadings.Length; i++)
             {
-                // debug
-                // Console.WriteLine(productHeadings[i].Text().ToLower());
-                    
                 similarity = StringSimilarity.ComputeLevenshteinDistance(productHeadings[i].Text().ToLower(), productName);
                 if (similarity < bestSimilarityCoefficient)
                 {

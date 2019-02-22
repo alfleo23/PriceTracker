@@ -95,33 +95,6 @@ namespace PriceTracker.ScrapeEngine
                 {"Product Heading", productHeadings[headingIndex].Text()},
                 {"Product Link", productLinks[headingIndex].GetAttribute("href")}
             };
-            
-            
-            
-            
-            
-            
-            /*var formattedPrice = productPrices[headingIndex].TextContent.Replace('£', ' ').Trim();
-            var formattedPriceDouble = Convert.ToDouble(formattedPrice); 
-            
-            var productPricesFormatted = new List<double> {};
-            foreach (var price in productPrices)
-            {
-                productPricesFormatted.Add(formattedPriceDouble);
-            }
-            
-            // standard deviation
-            Console.WriteLine("Standard deviation is: " + StringSimilarity.CalculateStandardDeviation(productPricesFormatted));
-            Console.WriteLine("");
-
-            return new Hashtable
-            {
-                {"Product Heading", productHeadings[headingIndex].Text()},
-                {"Price", productPrices[headingIndex].Text().Trim()},
-                {"Formatted Price", formattedPrice},
-                {"Similarity", bestSimilarityCoefficient},
-                {"Product Link", productLinks[headingIndex].GetAttribute("href")}
-            };*/
         }
         
     }

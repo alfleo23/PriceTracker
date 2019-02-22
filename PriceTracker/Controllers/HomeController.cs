@@ -56,7 +56,6 @@ namespace PriceTracker.Controllers
             }
 
             // create new result
-            //TODO add prices into the result object from other retailers once implemented
             var result = new Result()
             {
                 Date = DateTime.Now,
@@ -99,8 +98,6 @@ namespace PriceTracker.Controllers
                 _context.SavedSearch.Add(s.SavedSearch);
                 _context.SaveChanges();
                 
-                // dangerous approach..leads to incongruity if there are more db accesses from different users
-                //todo consider locking the table while doing the magic
                 var lastInserted = _context.SavedSearch.Last();
                 var id = lastInserted.SavedSearchId;
                 s.Result.SavedSearchId = id;
@@ -121,12 +118,6 @@ namespace PriceTracker.Controllers
         {
             //retrieve all saved searches from db and pass it to the view as a model
             var savedSearches = _context.SavedSearch.OrderByDescending(x => x.CreatedDate).Include(x => x.Results).ToList();
-
-            // debug
-            /*foreach (var savedSearch in savedSearches)
-            {
-                Console.WriteLine(savedSearch.Results.FirstOrDefault().AmazonPrice);
-            }*/
             
             return View(savedSearches);
         }
@@ -170,88 +161,6 @@ namespace PriceTracker.Controllers
             }
 
             return stringBuilder.ToString();
-        }
-
-        public async Task<string> Update()
-        {
-            var amazon = new AmazonScraper();
-            var ebay = new EbayScraper();
-            var jLewis = new JohnLewisScraper();
-            Hashtable amazonResults;
-            Hashtable ebayResults;
-            Hashtable jLewisResults;
-            
-            //get the saved searches
-            //var savedSearches = _context.SavedSearch.OrderByDescending(x => x.CreatedDate).Include(x => x.Results).ToList();
-            
-            //testing with only one saved search to automatically update 
-            var testSavedSearch = _context.SavedSearch.Find(1);
-
-            try
-            {
-                jLewisResults = await jLewis.ScrapePricesForProduct(testSavedSearch.Description);
-                ebayResults = await ebay.ScrapePricesForProduct(testSavedSearch.Description);
-                amazonResults = await amazon.ScrapePricesForProduct(testSavedSearch.Description);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-                
-            var result = new Result()
-            {
-                Date = DateTime.Now,
-                AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"]),
-                EbayPrice = Convert.ToDouble(ebayResults["Formatted Price"]),
-                JohnLewisPrice = Convert.ToDouble(jLewisResults["Formatted Price"]),
-                AmazonLink = amazonResults["Product Link"].ToString(),
-                AmazonHeading = amazonResults["Product Heading"].ToString(),
-                EbayLink = ebayResults["Product Link"].ToString(),
-                EbayHeading = ebayResults["Product Heading"].ToString(),
-                JohnLewisHeading = jLewisResults["Product Heading"].ToString(),
-                JohnLewisLink = jLewisResults["Product Link"].ToString(),
-            };
-                
-            testSavedSearch.Results.Add(result);
-            _context.SaveChanges();
-
-            return "successful";
-
-
-
-            /*foreach (var search in testSavedSearch)
-            {
-                try
-                {
-                    jLewisResults = await jLewis.ScrapePricesForProduct(search.Description);
-                    ebayResults = await ebay.ScrapePricesForProduct(search.Description);
-                    amazonResults = await amazon.ScrapePricesForProduct(search.);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-                
-                var result = new Result()
-                {
-                    Date = DateTime.Now,
-                    AmazonPrice = Convert.ToDouble(amazonResults["Formatted Price"]),
-                    EbayPrice = Convert.ToDouble(ebayResults["Formatted Price"]),
-                    JohnLewisPrice = Convert.ToDouble(jLewisResults["Formatted Price"]),
-                    AmazonLink = amazonResults["Product Link"].ToString(),
-                    AmazonHeading = amazonResults["Product Heading"].ToString(),
-                    EbayLink = ebayResults["Product Link"].ToString(),
-                    EbayHeading = ebayResults["Product Heading"].ToString(),
-                    JohnLewisHeading = jLewisResults["Product Heading"].ToString(),
-                    JohnLewisLink = jLewisResults["Product Link"].ToString(),
-                };
-                
-                search.Results.Add(result);
-            }
-
-            return "successful";*/
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
