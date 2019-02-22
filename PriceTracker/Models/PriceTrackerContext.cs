@@ -12,7 +12,7 @@ namespace PriceTracker.Models
 
         public PriceTrackerContext(DbContextOptions<PriceTrackerContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         public virtual DbSet<Result> Result { get; set; }
