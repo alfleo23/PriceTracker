@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace PriceTracker.Models
+namespace ResultsUpdater.Models
 {
     public partial class PriceTrackerContext : DbContext
     {
@@ -22,7 +22,7 @@ namespace PriceTracker.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySQL(Database.GetDbConnection().ConnectionString);
+                optionsBuilder.UseMySQL("server=localhost; Port=3306; uid=root; database=PriceTracker;");
             }
         }
 
