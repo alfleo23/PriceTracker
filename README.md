@@ -8,3 +8,5 @@ Entity Framework Core
 Razor
 
 MySQL
+
+AngleSharp
