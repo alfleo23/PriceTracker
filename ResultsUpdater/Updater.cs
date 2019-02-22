@@ -13,7 +13,7 @@ namespace ResultsUpdater
         
         public async Task UpdateResults()
         {
-            Console.WriteLine($"Task started at {DateTime.Now}");
+            Console.WriteLine($"Update Task started at {DateTime.Now}");
 
             using (var _context = new PriceTrackerContext())
             {
@@ -69,7 +69,7 @@ namespace ResultsUpdater
                 }
             }
             
-            Console.WriteLine($"Task completed successfully at {DateTime.Now}");
+            Console.WriteLine($"Update Task completed successfully at {DateTime.Now}");
         }
     }
     

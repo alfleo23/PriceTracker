@@ -33,21 +33,24 @@
             <tr>
                 <td style="width: 166px; text-align: center;">
                     <a href="@savedSearch.Results.FirstOrDefault().AmazonLink" 
-                       title="@savedSearch.Results.FirstOrDefault().AmazonHeading">
+                       title="@savedSearch.Results.FirstOrDefault().AmazonHeading"
+                       target="_blank" rel="noopener noreferrer">
                         @savedSearch.Results.FirstOrDefault().AmazonHeading.Truncate(30)
                     </a>    
                 </td>
             
                 <td style="width: 166px; text-align: center;">
                     <a href="@savedSearch.Results.FirstOrDefault().EbayLink"
-                       title="@savedSearch.Results.FirstOrDefault().EbayHeading">
+                       title="@savedSearch.Results.FirstOrDefault().EbayHeading"
+                       target="_blank" rel="noopener noreferrer">
                         @savedSearch.Results.FirstOrDefault().EbayHeading.Truncate(30)
                     </a>
                 </td>
             
                 <td style="width: 166px; text-align: center;">
                     <a href="@savedSearch.Results.FirstOrDefault().JohnLewisLink" 
-                       title="@savedSearch.Results.FirstOrDefault().JohnLewisHeading">
+                       title="@savedSearch.Results.FirstOrDefault().JohnLewisHeading"
+                       target="_blank" rel="noopener noreferrer">
                         @savedSearch.Results.FirstOrDefault().JohnLewisHeading
                     </a>
                 </td>  

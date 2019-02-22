@@ -30,19 +30,19 @@
         @* Links *@
         <tr>
             <td style="width: 166px; text-align: center;">
-                <a href="@(!string.IsNullOrEmpty(Model.Result.AmazonLink) ? (object) Model.Result.AmazonLink: "---")" title="@Model.Result.AmazonHeading">
+                <a href="@(!string.IsNullOrEmpty(Model.Result.AmazonLink) ? (object) Model.Result.AmazonLink: "---")" title="@Model.Result.AmazonHeading" target="_blank" rel="noopener noreferrer">
                     @Model.Result.AmazonHeading.Truncate(30)
                 </a>    
             </td>
             
             <td style="width: 166px; text-align: center;">
-                <a href="@(!string.IsNullOrEmpty(Model.Result.EbayLink) ? (object) Model.Result.EbayLink : "---")" title="@Model.Result.EbayHeading">
+                <a href="@(!string.IsNullOrEmpty(Model.Result.EbayLink) ? (object) Model.Result.EbayLink : "---")" title="@Model.Result.EbayHeading" target="_blank" rel="noopener noreferrer">
                     @Model.Result.EbayHeading.Truncate(30)
                 </a>
             </td>
             
             <td style="width: 166px; text-align: center;">
-                <a href="@(!string.IsNullOrEmpty(Model.Result.JohnLewisLink) ? (object) Model.Result.JohnLewisLink : "---")" title="@Model.Result.JohnLewisHeading">
+                <a href="@(!string.IsNullOrEmpty(Model.Result.JohnLewisLink) ? (object) Model.Result.JohnLewisLink : "---")" title="@Model.Result.JohnLewisHeading" target="_blank" rel="noopener noreferrer">
                     @Model.Result.JohnLewisHeading.Truncate(30)
                 </a>
             </td>  

@@ -15,7 +15,15 @@ namespace ResultsUpdater
             while (true)
             {
                 await updater.UpdateResults();
-                await Task.Delay(TimeSpan.FromSeconds(40));
+                
+                //daily
+                await Task.Delay(TimeSpan.FromHours(24));
+                
+                //every 10 minutes
+                //await Task.Delay(TimeSpan.FromMinutes(10));
+                
+                // uncomment this to see how the background scraper is operating
+                //await Task.Delay(TimeSpan.FromSeconds(60));
             }
         }
         
