@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ResultsUpdater.Models;
@@ -61,20 +63,94 @@ namespace ResultsUpdater
                             JohnLewisHeading = jLewisResults["Product Heading"].ToString(),
                             JohnLewisLink = jLewisResults["Product Link"].ToString(),
                         };
+                        
+                        //get the latest result for this saved search
+                        var currentSearchResult = search.Results.OrderByDescending(x => x.Date).FirstOrDefault();
 
+                        
                         search.Results.Add(result);
                         await _context.SaveChangesAsync();
 
+                        // compare the prices here
+                        var emailBody = ComparePrices(result, currentSearchResult);
+                        if (!string.IsNullOrEmpty(emailBody))
+                        {
+                            Console.WriteLine(SendNotificationEmail(emailBody));
+                        }
+                        
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("completed ");
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
                 }
-                Console.WriteLine("No Saved Searches to update");
+                else
+                {
+                    Console.WriteLine("No Saved Searches to update");
+                }
             }
             
             Console.WriteLine($"Update Task completed successfully at {DateTime.Now}");
         }
+
+        private string ComparePrices(Result newResult, Result currentResult)
+        {
+            var emailBody = new StringBuilder();
+            bool anyChanges = false;
+            
+            if (currentResult != null)
+            {
+                if (newResult.AmazonPrice < currentResult.AmazonPrice)
+                {
+                    emailBody.AppendLine(
+                        $"Amazon price dropped, was {currentResult.AmazonPrice}, now is {newResult.AmazonPrice}");
+                    anyChanges = true;
+                }
+
+                if (newResult.EbayPrice < currentResult.EbayPrice)
+                {
+                    emailBody.AppendLine(
+                        $"Ebay price dropped, was {currentResult.EbayPrice}, now is {newResult.EbayPrice}");
+                    anyChanges = true;
+
+                }
+
+                if (newResult.JohnLewisPrice < currentResult.JohnLewisPrice)
+                {
+                    emailBody.AppendLine(
+                        $"John Lewis price dropped, was {currentResult.JohnLewisPrice}, now is {newResult.JohnLewisPrice}");
+                    anyChanges = true;
+                }
+            }
+
+            return (anyChanges) ? emailBody.ToString() : "";
+        }
+
+        private string SendNotificationEmail(string emailBody)
+        {
+            var password = "email password";
+            var sender = "email sender";
+            var receiver = "email receiver";
+                
+            SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+            var mail = new MailMessage();
+            mail.From = new MailAddress(sender);
+            mail.To.Add(receiver);
+            mail.Subject = "Test Mail - 1";
+            mail.IsBodyHtml = true;
+            
+            string htmlBody;
+            htmlBody = emailBody;
+            mail.Body = htmlBody;
+            
+            SmtpServer.Port = 587;
+            SmtpServer.UseDefaultCredentials = false;
+            SmtpServer.Credentials = new System.Net.NetworkCredential(sender, password);
+            SmtpServer.EnableSsl = true;
+            SmtpServer.Send(mail);
+
+            return "Mail sent successfully!";
+        }
+
     }
     
 }
